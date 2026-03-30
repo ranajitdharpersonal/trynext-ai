@@ -1,7 +1,10 @@
+typescript
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Mic, Square, Code, Play, CheckCircle2, Loader2, Sparkles, Globe, ExternalLink, Monitor, Smartphone, LayoutTemplate, AppWindow, RefreshCw, Stethoscope, Trash2, Terminal, Activity } from "lucide-react";
+import { 
+  Mic, Square, Code, Play, CheckCircle2, Loader2, Sparkles, Globe, ExternalLink, Monitor, Smartphone, LayoutTemplate, AppWindow, RefreshCw, Stethoscope, Trash2, Terminal, Activity 
+} from "lucide-react";
 
 export default function Home() {
   const [isRecording, setIsRecording] = useState(false);
@@ -20,10 +23,8 @@ export default function Home() {
   const [projectType, setProjectType] = useState<'app' | 'website'>('app');
   const [sandboxView, setSandboxView] = useState<'desktop' | 'mobile'>('desktop');
 
-  // 🩺 Doctor AI State
   const [isDiagnosing, setIsDiagnosing] = useState(false);
 
-  // 🧠 LIVE BRAIN TERMINAL STATE
   const [brainLogs, setBrainLogs] = useState<string[]>([]);
   const logsEndRef = useRef<HTMLDivElement>(null);
 
@@ -33,11 +34,9 @@ export default function Home() {
     }
   }, [brainLogs]);
 
-  // 🧹 CLEAN LOGS: YES Ai Master Edition Auto-Translator
   const addLog = (msg: string) => {
     let formattedMsg = msg;
     
-    // Auto-translate old bracket tags to YES Ai Master Edition style!
     formattedMsg = formattedMsg.replace("[WHISPER]", "🎤 Whisper:");
     formattedMsg = formattedMsg.replace("[MANAGER]", "🎛️ Manager:");
     formattedMsg = formattedMsg.replace("[ARCHITECT]", "🧭 Architect:");
@@ -52,22 +51,19 @@ export default function Home() {
     setBrainLogs(prev => [...prev, formattedMsg]);
   };
 
-  // 👩‍💼 THE PREMIUM ENGLISH MAM (Hackathon Stable Version)
   const speakAgent = (customText?: string) => {
-    window.speechSynthesis.cancel(); // Aager bokbok bondho
+    window.speechSynthesis.cancel(); 
 
-    // 🛑 FIX: Faltu translation bad! Strict Professional English.
     const safeText = customText || "Task completed successfully, boss.";
 
     const utterance = new SpeechSynthesisUtterance(safeText);
-    utterance.lang = "en-US"; // 🇺🇸 Force US English for premium accent
+    utterance.lang = "en-US"; 
     utterance.rate = 1.0;
     utterance.pitch = 1.1;
 
     const setVoiceAndSpeak = () => {
       const voices = window.speechSynthesis.getVoices();
       
-      // Find the best English female voice (Zira, Samantha, Google US)
       const premiumVoice = voices.find(v => 
         v.lang.startsWith('en') && 
         (v.name.includes('Female') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Zira'))
@@ -96,11 +92,9 @@ export default function Home() {
   const startRecording = async () => {
     try {
       setTranscript("");
-      // 🚨 Boro BUG FIX: Ekhane aage setGeneratedCode("") chilo, jeta purono code muse dicchilo! 
-      // Ekhon theke user Trash button na tepa obdi code delete hobe na.
       setAgentStatus("");
       setIsHealing(false);
-      setBrainLogs([]); // Sudhu logs ar transcript clear korbo notun command-er jonno
+      setBrainLogs([]); 
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
@@ -144,7 +138,6 @@ export default function Home() {
       const data = await res.json();
       if (data.error) throw new Error(data.error);
 
-      // 🛑 FIX: Whisper er boka boka hallucination kete bad dewa
       let finalText = data.text.trim();
       finalText = finalText.replace(/(?:\bthank you\.?\b|\bthanks for watching\.?\b)/gi, '').trim();
 
@@ -209,7 +202,6 @@ export default function Home() {
         setAgentStatus(`✨ Cloning Complete!`);
         addLog(`[SYSTEM] Clone operation finished 100% ✅`);
         
-        // ✅ FIX: Strict English Call (No language code passed)
         speakAgent("Your project is successfully generated and ready in the sandbox.");
       }
       
@@ -232,7 +224,6 @@ export default function Home() {
         setAgentStatus(`✨ Modification Complete!`);
         addLog(`[SYSTEM] Hot-Reloading new UI elements ✅`);
         
-        // ✅ FIX: Strict English Call (No language code passed)
         speakAgent("Your project has been successfully modified.");
       }
       
@@ -309,7 +300,6 @@ export default function Home() {
         setAgentStatus(`✨ Local Deployment Complete!`);
         addLog(`[SYSTEM] Live Sandbox updated successfully!`);
         
-        // ✅ FIX: Strict English Call (No language code passed)
         speakAgent("Your project is successfully generated and ready in the sandbox.");
       }
 
@@ -350,7 +340,6 @@ export default function Home() {
     }
   };
 
-  // 🩺 Doctor Agent Run Function (UPDATED WITH LOGS!)
   const runDoctorAgent = async () => {
     setIsDiagnosing(true);
     setAgentStatus("🩺 Doctor AI is scanning codebase...");
@@ -382,24 +371,15 @@ export default function Home() {
   };
 
   return (
-    // 🌌 THE PERFECT STUDIO WRAPPER (Scroll natural, proportion locked)
     <div className="min-h-screen bg-[#050505] text-gray-100 relative overflow-x-hidden overflow-y-auto z-0 font-sans">
       
-      {/* 🔮 Fixed Aurora Glows */}
       <div className="fixed top-[-10%] left-[-10%] w-[40vw] h-[40vw] min-w-[300px] min-h-[300px] bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
       <div className="fixed bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] min-w-[300px] min-h-[300px] bg-purple-600/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
 
-      {/* ========================================================= */}
-      {/* 🛠️ MAIN FLEX CONTAINER (Perfect spacing and gap) */}
-      {/* ========================================================= */}
       <div className="max-w-[1600px] mx-auto w-full min-h-screen p-4 md:p-6 lg:p-8 flex flex-col lg:flex-row gap-6 lg:gap-8 justify-center items-stretch">
         
-        {/* ========================================================= */}
-        {/* 🚀 LEFT PANEL: Command Center (Big, Bold, No Shrinking) */}
-        {/* ========================================================= */}
         <div className="w-full lg:w-[420px] xl:w-[480px] flex flex-col bg-[#0a0a0c] border border-white/10 rounded-[2rem] p-6 lg:p-10 shadow-2xl relative z-10 flex-shrink-0">
           
-          {/* HEADER */}
           <div className="flex items-center gap-3 mb-6 mt-0">
             <div className="relative flex items-center justify-center w-28 h-28 bg-transparent -ml-2">
               <img src="/logo.png" alt="TryNext Logo" className="relative z-10 w-full h-full object-contain" />
@@ -415,301 +395,5 @@ export default function Home() {
             </div>
           </div>
 
-          {/* TOGGLE */}
           <div className="flex items-center bg-black/80 p-1.5 rounded-xl border border-white/5 mb-10 w-full shadow-inner">
-            <button onClick={() => setProjectType('app')} className={`flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-lg text-sm font-bold uppercase tracking-wider transition-all duration-300 ${projectType === 'app' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.2)]' : 'text-gray-500 hover:text-gray-300'}`}>
-              <AppWindow className="w-4 h-4" /> App
-            </button>
-            <button onClick={() => setProjectType('website')} className={`flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-lg text-sm font-bold uppercase tracking-wider transition-all duration-300 ${projectType === 'website' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]' : 'text-gray-500 hover:text-gray-300'}`}>
-              <LayoutTemplate className="w-4 h-4" /> Web
-            </button>
-          </div>
-
-          {/* THE ORB (Mic Button - Bishal Boro) */}
-          <div className="relative flex items-center justify-center my-2 group">
-            {isRecording && <div className="absolute inset-0 bg-rose-500/20 rounded-full blur-3xl animate-pulse scale-150"></div>}
-            <div className="absolute inset-0 bg-indigo-500/10 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500 -z-10"></div>
-            <button
-              onMouseDown={startRecording} onMouseUp={stopRecording} onTouchStart={startRecording} onTouchEnd={stopRecording}
-              disabled={isGenerating || isDeploying || isDiagnosing}
-              className={`select-none relative z-10 flex items-center justify-center w-36 h-36 rounded-full transition-all duration-500 ${isGenerating || isDeploying || isDiagnosing ? 'bg-black/60 cursor-not-allowed border border-white/5' :
-                  isRecording ? "bg-gradient-to-br from-rose-500 to-red-600 scale-105 shadow-[0_0_50px_rgba(225,29,72,0.5)] border-0" : "bg-gradient-to-br from-indigo-600 to-purple-700 hover:scale-105 hover:shadow-[0_0_50px_rgba(124,58,237,0.5)] border border-white/10"
-                }`}
-            >
-              {isRecording ? <Square className="w-12 h-12 text-white/90 drop-shadow-md" /> : <Mic className="w-12 h-12 text-white/90 drop-shadow-md" />}
-            </button>
-          </div>
-
-          <p className="text-[12px] font-bold tracking-[0.2em] uppercase mb-8 text-center mt-6">
-            {generatedCode ? (
-              <span className="text-amber-400 flex items-center justify-center gap-2 animate-pulse">
-                <Sparkles className="w-4 h-4" /> Hold to modify {projectType}
-              </span>
-            ) : (
-              <span className="text-gray-400 transition-colors">Hold to create {projectType}</span>
-            )}
-          </p>
-
-          <div className="w-full flex-grow flex flex-col gap-5">
-            {/* Transcript Box */}
-            <div className="p-5 bg-black/90 rounded-2xl border border-white/10 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
-              <p className="text-[11px] text-gray-400 mb-3 font-bold uppercase tracking-[0.2em]">Live Transcript</p>
-              <p className="text-[15px] text-gray-200 min-h-[3.5rem] font-medium italic leading-relaxed">
-                {transcript || <span className="text-gray-600">Awaiting your command...</span>}
-              </p>
-            </div>
-
-            {/* Status Bar */}
-            {(isGenerating || isDeploying || agentStatus) && (
-              <div className={`p-4 rounded-xl flex items-center gap-3 transition-colors duration-300 border ${isHealing ? 'bg-amber-900/20 text-amber-300 border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : isDiagnosing ? 'bg-rose-900/20 text-rose-300 border-rose-500/30 shadow-[0_0_15px_rgba(244,63,94,0.1)]' : 'bg-indigo-900/20 text-indigo-300 border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.1)]'}`}>
-                {isHealing || isDiagnosing || isGenerating || isDeploying ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : (
-                  <CheckCircle2 className="w-5 h-5" />
-                )}
-                <p className="text-[12px] font-bold tracking-widest uppercase">
-                  {agentStatus}
-                </p>
-              </div>
-            )}
-
-            {/* 🧠 THE NEW ENHANCED BRAIN VIEW (Classic YES Ai Live Logs) */}
-            <div className="mt-auto bg-[#020202]/90 rounded-2xl border border-emerald-500/20 font-mono flex flex-col shadow-[inset_0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden h-[240px]">
-              
-              {/* Brain Header (Clean, No Faltu Badges) */}
-              <div className="flex items-center justify-between px-5 py-3 border-b border-emerald-500/20 bg-[#050505] z-10 shadow-sm flex-shrink-0">
-                <div className="flex items-center gap-2.5">
-                  <span className="text-[16px] drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]">🧠</span>
-                  <span className="font-bold tracking-[0.2em] text-emerald-500 uppercase text-[11px]">Swarm Intelligence</span>
-                </div>
-                
-                {/* Just the ONLINE status */}
-                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 rounded-md border border-emerald-500/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span className="text-[9px] font-black text-emerald-400 tracking-widest">ONLINE</span>
-                </div>
-              </div>
-
-              {/* Dynamic Content Area */}
-              <div className="p-5 overflow-y-auto custom-scrollbar flex-grow flex flex-col">
-                {brainLogs.length === 0 ? (
-                  /* 🎭 IDLE ROSTER STATE (Exactly as requested) */
-                  <div className="flex flex-col h-full justify-between">
-                    <div className="space-y-4 mt-1">
-                      {/* MANAGER */}
-                      <div className="flex items-center gap-3">
-                        <span className="text-[18px] opacity-90 drop-shadow-md">🎛️</span>
-                        <div className="flex flex-col">
-                          <span className="font-bold text-gray-200 text-[11px] tracking-wide">Manager Agent</span>
-                          <span className="text-[9px] text-gray-500 uppercase tracking-widest mt-0.5">Role: Routing & Intent</span>
-                        </div>
-                      </div>
-                      
-                      {/* CODER */}
-                      <div className="flex items-center gap-3">
-                        <span className="text-[18px] opacity-90 drop-shadow-md">🔨</span>
-                        <div className="flex flex-col">
-                          <span className="font-bold text-gray-200 text-[11px] tracking-wide">Coder Agent</span>
-                          <span className="text-[9px] text-gray-500 uppercase tracking-widest mt-0.5">Role: UI/UX & Logic</span>
-                        </div>
-                      </div>
-                      
-                      {/* EVALUATOR */}
-                      <div className="flex items-center gap-3">
-                        <span className="text-[18px] opacity-90 drop-shadow-md">⚖️</span>
-                        <div className="flex flex-col">
-                          <span className="font-bold text-emerald-400 text-[11px] tracking-wide">Evaluator Agent</span>
-                          <span className="text-[9px] text-emerald-500/60 uppercase tracking-widest mt-0.5">Role: QA & Auto-Healing</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-              
-                  </div>
-                ) : (
-                  /* ⚡ ACTIVE LOGS STATE (YES Ai Master Edition Exact Replica) */
-                <div className="flex flex-col gap-1.5">
-                    {brainLogs.map((log, idx) => {
-                      let colorClass = "text-gray-300"; 
-                      
-                      // Theme Colors
-                      if (log.includes("✅") || log.includes("Complete") || log.includes("APPROVED")) colorClass = "text-emerald-400";
-                      if (log.includes("❌") || log.includes("Failed") || log.includes("REJECTED")) colorClass = "text-rose-400";
-                      if (log.includes("CIRCUIT BREAKER")) colorClass = "text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20";
-
-                      // YES Ai Formatting Magic: Extract Role and Make it BOLD
-                      const colonIdx = log.indexOf(':');
-                      let rolePart = "";
-                      let messagePart = log;
-                      
-                      if (colonIdx !== -1 && colonIdx < 30) {
-                         rolePart = log.substring(0, colonIdx + 1); // "🎛️ Manager:"
-                         messagePart = log.substring(colonIdx + 1); // " Routing request..."
-                      }
-
-                      return (
-                        <div key={idx} className={`text-[12.5px] leading-relaxed transition-colors duration-300 ${colorClass}`}>
-                          {rolePart && <strong className="font-bold text-gray-100 mr-1 drop-shadow-sm">{rolePart}</strong>}
-                          <span className={`${log.includes("CIRCUIT") ? "font-bold tracking-wide" : "opacity-90"}`}>
-                            {messagePart}
-                          </span>
-                        </div>
-                      );
-                    })}
-                    <div ref={logsEndRef} />
-                  </div>
-                )}
-              </div>
-            </div>
-
-
-          </div>
-        </div>
-
-        {/* ========================================================= */}
-        {/* 🎨 RIGHT PANEL: The Stage (Max-Width limited to prevent stretching) */}
-        {/* ========================================================= */}
-        <div className="flex-1 w-full max-w-[1000px] flex flex-col bg-[#0a0a0c] border border-white/10 rounded-[2rem] p-6 lg:p-8 shadow-2xl relative z-10">
-          
-          {/* HEADER TOOLBAR */}
-          <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
-            <div className="flex items-center gap-3">
-              <Play className="w-6 h-6 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]" />
-              <h2 className="text-2xl font-bold text-white tracking-wide">Live Sandbox</h2>
-            </div>
-
-            <div className="flex items-center gap-4 flex-wrap">
-              
-              {/* 🩺 THE NEW ENTERPRISE AI DOCTOR WIDGET (God Level Design) */}
-              <button 
-                onClick={!isDiagnosing ? runDoctorAgent : undefined}
-                className={`relative flex items-center gap-3 px-4 py-2.5 rounded-2xl border transition-all duration-500 overflow-hidden group ${
-                  isDiagnosing 
-                    ? 'bg-rose-950/30 border-rose-500/50 cursor-not-allowed shadow-[0_0_20px_rgba(244,63,94,0.15)]' 
-                    : 'bg-[#0f1014] border-emerald-500/30 hover:border-emerald-400 hover:bg-[#15171a] shadow-[0_4px_20px_rgba(16,185,129,0.1)] hover:shadow-[0_0_25px_rgba(16,185,129,0.25)] cursor-pointer'
-                }`}
-              >
-                {/* Breathing Radar Dot */}
-                <div className="relative flex items-center justify-center w-4 h-4">
-                  <span className={`absolute w-3 h-3 rounded-full ${isDiagnosing ? 'bg-rose-500' : 'bg-emerald-400'} animate-ping opacity-60`}></span>
-                  <span className={`relative w-2.5 h-2.5 rounded-full ${isDiagnosing ? 'bg-rose-500' : 'bg-emerald-500'}`}></span>
-                </div>
-                
-                {/* Text Block */}
-                <div className="flex flex-col items-start text-left hidden sm:flex">
-                  <span className={`text-[13px] font-black tracking-widest uppercase leading-tight ${isDiagnosing ? 'text-rose-400' : 'text-gray-100 group-hover:text-white transition-colors'}`}>
-                    {isDiagnosing ? 'Auto-Healing...' : 'Run AI Doctor'}
-                  </span>
-                  <span className={`text-[9px] font-bold uppercase tracking-[0.2em] mt-0.5 ${isDiagnosing ? 'text-rose-500/80' : 'text-emerald-500/80 group-hover:text-emerald-400 transition-colors'}`}>
-                    {isDiagnosing ? 'Diagnosing code' : 'Active System Monitor'}
-                  </span>
-                </div>
-
-                {/* Vertical Separator & Icon */}
-                <div className={`w-[1px] h-7 mx-1 hidden sm:block transition-colors ${isDiagnosing ? 'bg-rose-500/20' : 'bg-white/10 group-hover:bg-emerald-500/20'}`}></div>
-                <Stethoscope className={`w-5 h-5 ${isDiagnosing ? 'text-rose-400 animate-spin' : 'text-gray-400 group-hover:text-emerald-400 transition-colors'}`} />
-              </button>
-
-              {/* View Toggles & Actions */}
-              <div className="flex items-center gap-2">
-                <div className="flex items-center bg-black/50 p-1.5 rounded-xl border border-white/5 shadow-inner">
-                  <button onClick={() => setSandboxView('desktop')} className={`p-2.5 rounded-lg transition-colors ${sandboxView === 'desktop' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-500 hover:text-white'}`}>
-                    <Monitor className="w-5 h-5" />
-                  </button>
-                  <button onClick={() => setSandboxView('mobile')} className={`p-2.5 rounded-lg transition-colors ${sandboxView === 'mobile' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-500 hover:text-white'}`}>
-                    <Smartphone className="w-5 h-5" />
-                  </button>
-                </div>
-
-                {/* 🚨 HARANO TRASH BUTTON EKHANE FEROT ELO 🚨 */}
-                <button 
-                  onClick={() => { setGeneratedCode(""); setSrsData(null); setDeployUrl(null); setAgentStatus(""); }} 
-                  disabled={!generatedCode || isGenerating || isDiagnosing}
-                  className={`p-2.5 rounded-xl transition-colors border ${
-                    generatedCode 
-                      ? 'text-gray-400 bg-white/5 hover:bg-rose-500/10 hover:text-rose-400 hover:border-rose-500/30 border-white/10' 
-                      : 'text-gray-600 bg-transparent border-transparent cursor-not-allowed opacity-50'
-                  }`}
-                  title="Clear Sandbox"
-                >
-                  <Trash2 className="w-5 h-5" />
-                </button>
-
-                {/* Publish Button - Always there, active only when code exists */}
-                <button 
-                  onClick={deployToVercel} 
-                  disabled={!generatedCode || isDeploying || !!deployUrl || isGenerating} 
-                  className={`flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-[12px] font-bold uppercase tracking-widest transition-all duration-300 ${
-                    generatedCode && !deployUrl && !isGenerating
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:scale-105 shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer' 
-                      : 'bg-white/10 text-gray-400 border border-white/20 cursor-not-allowed shadow-inner'
-                  }`}
-                >
-                  {isDeploying ? <Loader2 className="w-4 h-4 animate-spin text-gray-400" /> : <Globe className="w-4 h-4" />}
-                  {deployUrl ? 'Published' : 'Publish'}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="h-[1px] w-full bg-white/5 mb-6 mt-2"></div> {/* Horizontal Divider */}
-
-          {/* URL Box */}
-          {deployUrl && (
-            <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-between shadow-lg">
-              <p className="text-sm text-emerald-400 font-bold uppercase tracking-wider">🎉 Live URL Ready!</p>
-              <a href={deployUrl} target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded-lg text-xs font-bold flex items-center gap-2 transition-colors">
-                Open Link <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
-          )}
-
-          {/* THE CLEAN BRIGHT CANVAS */}
-          <div className={`transition-all duration-700 ease-in-out relative flex flex-col mx-auto ${sandboxView === 'mobile'
-              ? 'w-[375px] h-[750px] border-[14px] border-[#000] rounded-[3rem] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden bg-white ring-1 ring-white/10'
-              : 'w-full flex-grow rounded-2xl overflow-hidden bg-white shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-white/10'
-            }`}>
-
-            {/* Fake Browser/Phone Header */}
-            <div className={`bg-gray-50 border-b border-gray-200 flex items-center justify-center ${sandboxView === 'mobile' ? 'h-8' : 'h-12 px-6 justify-start gap-2.5'}`}>
-              {sandboxView === 'mobile' ? (
-                <div className="w-36 h-6 bg-black rounded-b-2xl absolute top-0 flex items-center justify-center">
-                   <div className="w-12 h-1.5 bg-white/10 rounded-full mt-1"></div>
-                </div>
-              ) : (
-                <>
-                  <div className="w-3.5 h-3.5 rounded-full bg-rose-400 shadow-sm"></div>
-                  <div className="w-3.5 h-3.5 rounded-full bg-amber-400 shadow-sm"></div>
-                  <div className="w-3.5 h-3.5 rounded-full bg-emerald-400 shadow-sm"></div>
-                </>
-              )}
-            </div>
-
-            {!generatedCode ? (
-              <div className="flex-grow flex flex-col items-center justify-center text-gray-400 bg-[#f8f9fa] relative">
-                {/* Background Grid Pattern for empty state */}
-                <div className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:30px_30px] opacity-40 pointer-events-none"></div>
-                
-                <div className="relative z-10 flex flex-col items-center">
-                  <div className="w-20 h-20 rounded-full bg-white shadow-sm flex items-center justify-center mb-5 border border-gray-200">
-                    <Code className="w-10 h-10 text-gray-300" />
-                  </div>
-                  <p className="font-bold text-sm uppercase tracking-[0.3em] text-gray-400">Canvas is empty</p>
-                </div>
-              </div>
-            ) : (
-              <iframe
-                title="Live Preview"
-                srcDoc={generatedCode}
-                className="w-full flex-grow border-0 bg-white"
-                sandbox="allow-scripts allow-same-origin allow-forms"
-              />
-            )}
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-  );
-}
+            <button onClick={() => setProjectType('app')} className={`flex-1 flex items-center justify-center gap-2 py-3 px-3 rounded-lg text-sm font-bold uppercase tracking-wider transition-all duration-300 ${projectType === 'app' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.
