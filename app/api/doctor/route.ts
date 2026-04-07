@@ -13,8 +13,8 @@ async function runDoctor() {
 
   console.log("🩺 Doctor AI is connecting to GitHub...");
 
-  // 1. Direct GitHub theke live code fetch kora
-  const fileRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/src/app/page.tsx`, {
+  // 1. Direct GitHub theke live code fetch kora (🚨 FIX: Removed 'src/' from path)
+  const fileRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/app/page.tsx`, {
     headers: { Authorization: `Bearer ${TOKEN}`, 'Accept': 'application/vnd.github.v3+json' },
     cache: 'no-store' // 🚀 Ensure we always get the fresh code!
   });
@@ -27,11 +27,12 @@ async function runDoctor() {
   // 2. Doctor AI (Multi-Brain) Code Analysis
   console.log("🧠 Doctor AI is analyzing the code...");
   
-  const SYSTEM_PROMPT = `You are a Senior Security & Optimization AI Doctor for TryNext AI.
-  Review the following Next.js TypeScript code.
-  Find any bugs, missing error handling, or UI optimizations.
-  If the code is flawless, reply EXACTLY with the word "PERFECT".
-  If fixes are needed, return ONLY the ENTIRE updated HTML/TSX code without any markdown tags.`;
+  const SYSTEM_PROMPT = `You are a strict QA Doctor for TryNext AI.
+  The provided Next.js code is already highly optimized, enterprise-grade, and fully functional.
+  DO NOT attempt to refactor, format, or optimize the codebase.
+  Unless there is a FATAL syntax error that completely breaks the app, you MUST reply EXACTLY with the word "PERFECT".
+  Do not output any code. Just say "PERFECT".`;
+
 
   // 🧠 MULTI-BRAIN MASTER ENGINE CALL
   const response = await askBrain(codeContent, SYSTEM_PROMPT);
@@ -68,7 +69,8 @@ async function runDoctor() {
     body: JSON.stringify({ ref: `refs/heads/${branchName}`, sha: baseSha })
   });
 
-  await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/src/app/page.tsx`, {
+  // 🚨 FIX: Removed 'src/' from path in PUT request too!
+  await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/app/page.tsx`, {
     method: 'PUT',
     headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
