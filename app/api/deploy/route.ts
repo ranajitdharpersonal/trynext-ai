@@ -9,8 +9,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Kono code asheni deploy korar jonno!" }, { status: 400 });
     }
 
-    const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
-    if (!VERCEL_TOKEN) {
+    const TRYNEXT_DEPLOY_KEY = process.env.TRYNEXT_DEPLOY_KEY;
+    if (!TRYNEXT_DEPLOY_KEY) {
       throw new Error("Vercel Token missing in .env.local");
     }
 
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
     const response = await fetch('https://api.vercel.com/v13/deployments', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${VERCEL_TOKEN}`,
+        'Authorization': `Bearer ${TRYNEXT_DEPLOY_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
