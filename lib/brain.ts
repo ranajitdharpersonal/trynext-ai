@@ -18,7 +18,7 @@ export async function askBrain(prompt: string, systemInstruction: string = "You 
       const geminiKey = process.env.GEMINI_API_KEY;
       if (!geminiKey) throw new Error("GEMINI_API_KEY missing");
 
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${geminiKey}`, {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-pro:generateContent?key=${geminiKey}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

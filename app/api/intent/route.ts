@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { askBrain } from '@/lib/brain';
 
 // System Prompt: Ekdom strict instruction (JSON output er jonno)
-const SYSTEM_PROMPT = `You are an expert Software Architect for 'Code Setu 2.0'. 
+const SYSTEM_PROMPT = `You are an expert Software Architect for 'TryNext AI'. 
 Your job is to translate user's raw, regional language (Bengali/Hindi/English) voice intent into a clean, structured English Software Requirement Specification (SRS).
 Extract the core functionality, UI components mentioned, and the main goal.
 Return ONLY a valid JSON object with the following structure. Do NOT include markdown blocks like \`\`\`json.

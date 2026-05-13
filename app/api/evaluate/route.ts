@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { askBrain } from '@/lib/brain';
 
 // System Prompt: Strict QA Engineer
-const SYSTEM_PROMPT = `You are a strict QA (Quality Assurance) Engineer for Code Setu 2.0.
+const SYSTEM_PROMPT = `You are a strict QA (Quality Assurance) Engineer for TryNext AI.
 Your job is to compare the generated HTML code against the original Software Requirement Specification (SRS).
 Check specifically if UI preferences (like dark theme, colors) and core features are actually implemented in the code.
 Return ONLY a valid JSON object. Do NOT include markdown blocks like \`\`\`json.
