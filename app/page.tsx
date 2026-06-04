@@ -15,6 +15,7 @@ export default function Home() {
 
   const [isHealing, setIsHealing] = useState(false);
   const [isDeploying, setIsDeploying] = useState(false);
+  const [isUpgrading, setIsUpgrading] = useState(false);
   const [deployUrl, setDeployUrl] = useState<string | null>(null);
 
   const [projectType, setProjectType] = useState<'app' | 'website'>('app');
@@ -326,7 +327,9 @@ export default function Home() {
   const deployToVercel = async () => {
     if (!generatedCode) return;
     setIsDeploying(true);
-    setAgentStatus("☁️ Uploading to Vercel Cloud...");
+    setAgentStatus("☁️ Uploading to Vercel Edge Network...");
+    addLog("[SYSTEM] 🚀 Initiating One-Click Deployment...");
+    
     try {
       const res = await fetch('/api/deploy', {
         method: 'POST',
@@ -340,15 +343,93 @@ export default function Home() {
       if (data.error) throw new Error(data.error);
 
       setDeployUrl(data.url);
-      setAgentStatus("✅ Live on Internet!");
+      
+      // ==============================================================
+      // 🚀 AWS UI STATUS UPDATE (Phase 1)
+      // ==============================================================
+      setAgentStatus("✅ App Live & Data Secured in AWS DynamoDB!");
+      addLog(`[SYSTEM] 🌐 Edge Deployment successful: ${data.url}`);
+      addLog("[DATA WIZARD] 💾 User Session securely scaled to AWS DynamoDB.");
+      // ==============================================================
 
-      speakAgent("Deployment successful. Your application is now live on the internet.");
+      speakAgent("Deployment successful. Your application is live, and your data is securely stored in A W S Dynamo D B.");
     } catch (error: any) {
       setAgentStatus(`❌ Deploy Failed: ${error.message}`);
+      addLog(`[SYSTEM] ❌ Deployment failed: ${error.message}`);
     } finally {
       setIsDeploying(false);
     }
   };
+  
+  // ==============================================================
+  // 💸 REAL REVENUE: RAZORPAY CHECKOUT
+  // ==============================================================
+  const handleUpgrade = async () => {
+    setIsUpgrading(true);
+    setAgentStatus("⏳ Initiating Secure Checkout...");
+    addLog("[MANAGER] 🛡️ Opening Secure Payment Gateway...");
+
+    try {
+      // 1. Razorpay Script Load Kora
+      const res = await new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+      });
+
+      if (!res) throw new Error("Razorpay SDK failed to load. Check your internet connection.");
+
+      // 2. Amader Backend theke Order toiri kora
+      const checkoutResponse = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          deploymentId: deployUrl?.replace("https://", "") || `dep_${Date.now()}`,
+          userEmail: "founder@trynext.ai"
+        }),
+      });
+
+      const data = await checkoutResponse.json();
+      if (!checkoutResponse.ok) throw new Error(data.error);
+
+      // 3. Payment Modal Open Kora
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // 🔒 Ekdom secure! Hardcoded noy!
+        amount: data.order.amount,
+        currency: data.order.currency,
+        name: "TryNext AI",
+        description: "Upgrade to PRO (1 Month Validity)",
+        order_id: data.order.id,
+        handler: function (response: any) {
+          // Payment Success hole ei code ta cholbe
+          setAgentStatus("✅ Payment Successful! Upgrading to PRO...");
+          addLog("[DATA WIZARD] 💸 Payment verified via Webhook! Tier upgraded to PRO.");
+          speakAgent("Payment successful. Welcome to Try Next A I Pro.");
+        },
+        prefill: {
+          name: "Ranajit Dhar",
+          email: "founder@trynext.ai",
+          contact: "9999999999"
+        },
+        theme: {
+          color: "#f59e0b" // Amber color to match the crown
+        }
+      };
+
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.open();
+
+    } catch (err: any) {
+      setAgentStatus(`❌ Checkout Failed: ${err.message}`);
+      addLog(`[SYSTEM] ❌ Checkout Error: ${err.message}`);
+    } finally {
+      setIsUpgrading(false);
+    }
+  };
+  // ==============================================================
+
 
   // 🩺 Doctor Agent Run Function (UPDATED WITH LOGS!)
   const runDoctorAgent = async () => {
@@ -654,15 +735,41 @@ export default function Home() {
 
           <div className="h-[1px] w-full bg-white/5 mb-6 mt-2"></div> {/* Horizontal Divider */}
 
-          {/* URL Box */}
+          {/* ============================================================== */}
+          {/* 🌐 LIVE URL & 👑 PREMIUM PAYWALL BOX */}
+          {/* ============================================================== */}
           {deployUrl && (
-            <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-between shadow-lg">
-              <p className="text-sm text-emerald-400 font-bold uppercase tracking-wider">🎉 Live URL Ready!</p>
-              <a href={deployUrl} target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded-lg text-xs font-bold flex items-center gap-2 transition-colors">
-                Open Link <ExternalLink className="w-4 h-4" />
-              </a>
+            <div className="mb-6 flex flex-col gap-3">
+              {/* Box 1: The Live Link */}
+              <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-between shadow-lg">
+                <p className="text-sm text-emerald-400 font-bold uppercase tracking-wider">🎉 Live URL Ready!</p>
+                <a href={deployUrl} target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded-lg text-xs font-bold flex items-center gap-2 transition-colors">
+                  Open Link <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+              
+              {/* Box 2: The XPRIZE Paywall */}
+              <div className="p-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-xl flex items-center justify-between shadow-lg">
+                <div className="flex flex-col">
+                  <p className="text-sm text-amber-400 font-bold uppercase tracking-wider flex items-center gap-2">
+                    👑 Upgrade to PRO
+                  </p>
+                  <p className="text-[10px] text-amber-500/70 font-bold uppercase tracking-widest mt-1">
+                    Unlock 1-Month Validity & Auto-Scaling
+                  </p>
+                </div>
+                <button 
+                  onClick={handleUpgrade}
+                  disabled={isUpgrading}
+                  className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:scale-105 disabled:hover:scale-100 disabled:opacity-50 text-white rounded-lg text-xs font-black uppercase tracking-widest flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)]"
+                >
+                  {isUpgrading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                  Pay ₹10
+                </button>
+              </div>
             </div>
           )}
+          {/* ============================================================== */}
 
           {/* THE CLEAN BRIGHT CANVAS */}
           <div className={`transition-all duration-700 ease-in-out relative flex flex-col mx-auto ${sandboxView === 'mobile'

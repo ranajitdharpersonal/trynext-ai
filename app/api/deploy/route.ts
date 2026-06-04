@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 
 export async function POST(req: Request) {
   try {
@@ -80,6 +82,39 @@ export async function POST(req: Request) {
     // Vercel return kore url (e.g., something.vercel.app)
     const liveUrl = `https://${data.url}`;
     console.log(`✅ App Deployed: ${liveUrl}`);
+
+    // ==============================================================
+    // 💾 AWS DYNAMODB INJECTION (Phase 1: Zero Stack Hackathon)
+    // ==============================================================
+    try {
+      console.log("💾 Saving deployment to AWS DynamoDB...");
+      
+      const dbClient = new DynamoDBClient({
+        region: process.env.AWS_REGION || "us-east-1",
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+        },
+      });
+      const docClient = DynamoDBDocumentClient.from(dbClient);
+
+      await docClient.send(new PutCommand({
+        TableName: "TryNext_Deployments",
+        Item: {
+          deploymentId: data.id || `dep_${Date.now()}`,
+          appName: appName || "TryNext_App",
+          url: liveUrl,
+          tier: "FREE",
+          expiresAt: expiryTime,
+          createdAt: Date.now()
+        }
+      }));
+      console.log("✅ Data successfully saved to AWS DynamoDB!");
+    } catch (awsError) {
+      console.error("⚠️ AWS DynamoDB Error:", awsError);
+      // Ekhane error asleo user app deployer URL peye jabe, app crash korbe na!
+    }
+    // ==============================================================
 
     return NextResponse.json({ success: true, url: liveUrl });
 
