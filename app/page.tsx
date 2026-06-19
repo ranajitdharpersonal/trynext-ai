@@ -689,6 +689,7 @@ export default function Home() {
                 {/* Vertical Separator & Icon */}
                 <div className={`w-[1px] h-7 mx-1 hidden sm:block transition-colors ${isDiagnosing ? 'bg-rose-500/20' : 'bg-white/10 group-hover:bg-emerald-500/20'}`}></div>
                 <Stethoscope className={`w-5 h-5 ${isDiagnosing ? 'text-rose-400 animate-spin' : 'text-gray-400 group-hover:text-emerald-400 transition-colors'}`} />
+                <span className="sm:hidden text-[11px] font-black uppercase tracking-widest text-gray-200 ml-1">Doctor</span>
               </button>
 
               {/* View Toggles & Actions */}
@@ -771,47 +772,50 @@ export default function Home() {
           )}
           {/* ============================================================== */}
 
-          {/* THE CLEAN BRIGHT CANVAS */}
-          <div className={`transition-all duration-700 ease-in-out relative flex flex-col mx-auto ${sandboxView === 'mobile'
-              ? 'w-[375px] h-[750px] border-[14px] border-[#000] rounded-[3rem] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden bg-white ring-1 ring-white/10'
-              : 'w-full flex-grow rounded-2xl overflow-hidden bg-white shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-white/10'
-            }`}>
+          {/* ============================================================== */}
+          {/* 📱 THE CLEAN BRIGHT CANVAS (100% Fixed Scroll & Height) */}
+          {/* ============================================================== */}
+          <div className="w-full flex-grow overflow-auto custom-scrollbar block pb-4 pt-2">
+            <div className={`transition-all duration-700 ease-in-out relative flex flex-col mx-auto ${
+                sandboxView === 'mobile'
+                  ? 'w-max min-w-[320px] sm:min-w-[375px] h-[550px] sm:h-[750px] border-[12px] sm:border-[14px] border-[#000] rounded-[2.5rem] sm:rounded-[3rem] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden bg-white ring-1 ring-white/10'
+                  : 'w-[450px] lg:w-full min-h-[450px] h-full rounded-2xl overflow-hidden bg-white shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-white/10'
+              }`}>
 
-            {/* Fake Browser/Phone Header */}
-            <div className={`bg-gray-50 border-b border-gray-200 flex items-center justify-center ${sandboxView === 'mobile' ? 'h-8' : 'h-12 px-6 justify-start gap-2.5'}`}>
-              {sandboxView === 'mobile' ? (
-                <div className="w-36 h-6 bg-black rounded-b-2xl absolute top-0 flex items-center justify-center">
-                   <div className="w-12 h-1.5 bg-white/10 rounded-full mt-1"></div>
+              {/* Fake Browser/Phone Header */}
+              <div className={`bg-gray-50 border-b border-gray-200 flex items-center justify-center flex-shrink-0 ${sandboxView === 'mobile' ? 'h-8' : 'h-12 px-6 justify-start gap-2.5'}`}>
+                {sandboxView === 'mobile' ? (
+                  <div className="w-28 sm:w-36 h-5 sm:h-6 bg-black rounded-b-xl sm:rounded-b-2xl absolute top-0 flex items-center justify-center">
+                     <div className="w-10 sm:w-12 h-1 sm:h-1.5 bg-white/10 rounded-full mt-0.5 sm:mt-1"></div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="w-3.5 h-3.5 rounded-full bg-rose-400 shadow-sm"></div>
+                    <div className="w-3.5 h-3.5 rounded-full bg-amber-400 shadow-sm"></div>
+                    <div className="w-3.5 h-3.5 rounded-full bg-emerald-400 shadow-sm"></div>
+                  </>
+                )}
+              </div>
+
+              {!generatedCode ? (
+                <div className="flex-grow flex flex-col items-center justify-center text-gray-400 bg-[#f8f9fa] relative">
+                  <div className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:30px_30px] opacity-40 pointer-events-none"></div>
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="w-20 h-20 rounded-full bg-white shadow-sm flex items-center justify-center mb-5 border border-gray-200">
+                      <Code className="w-10 h-10 text-gray-300" />
+                    </div>
+                    <p className="font-bold text-sm uppercase tracking-[0.3em] text-gray-400">Canvas is empty</p>
+                  </div>
                 </div>
               ) : (
-                <>
-                  <div className="w-3.5 h-3.5 rounded-full bg-rose-400 shadow-sm"></div>
-                  <div className="w-3.5 h-3.5 rounded-full bg-amber-400 shadow-sm"></div>
-                  <div className="w-3.5 h-3.5 rounded-full bg-emerald-400 shadow-sm"></div>
-                </>
+                <iframe
+                  title="Live Preview"
+                  srcDoc={generatedCode}
+                  className="w-full flex-grow border-0 bg-white"
+                  sandbox="allow-scripts allow-same-origin allow-forms"
+                />
               )}
             </div>
-
-            {!generatedCode ? (
-              <div className="flex-grow flex flex-col items-center justify-center text-gray-400 bg-[#f8f9fa] relative">
-                {/* Background Grid Pattern for empty state */}
-                <div className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:30px_30px] opacity-40 pointer-events-none"></div>
-                
-                <div className="relative z-10 flex flex-col items-center">
-                  <div className="w-20 h-20 rounded-full bg-white shadow-sm flex items-center justify-center mb-5 border border-gray-200">
-                    <Code className="w-10 h-10 text-gray-300" />
-                  </div>
-                  <p className="font-bold text-sm uppercase tracking-[0.3em] text-gray-400">Canvas is empty</p>
-                </div>
-              </div>
-            ) : (
-              <iframe
-                title="Live Preview"
-                srcDoc={generatedCode}
-                className="w-full flex-grow border-0 bg-white"
-                sandbox="allow-scripts allow-same-origin allow-forms"
-              />
-            )}
           </div>
 
         </div>
